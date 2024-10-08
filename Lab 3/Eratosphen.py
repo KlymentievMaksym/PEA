@@ -27,4 +27,3 @@ for p in range(a, b+1):
             print(p)
         else:
             print(p, end=" ")
-
