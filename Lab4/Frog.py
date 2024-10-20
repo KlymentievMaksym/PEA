@@ -14,16 +14,18 @@
 number_of_stones = int(input())
 integers = list(map(int, input().split()))
 if number_of_stones == 1:
-    print(integers[0]-integers[0])
+    print(abs(integers[0]-integers[0]))
 elif number_of_stones == 2:
-    print(integers[1]-integers[0])
+    print(abs(integers[1]-integers[0]))
 else:
     cost_of_jumps = [0]*number_of_stones
     cost_of_jumps[0] = 0
-    cost_of_jumps[1] = integers[1]-integers[0]
+    cost_of_jumps[1] = abs(integers[1]-integers[0])
     for integer_index in range(2, number_of_stones):
-        cost_of_jumps[integer_index] = min(cost_of_jumps[integer_index-2] + abs(integers[integer_index-2]-integers[integer_index]), cost_of_jumps[integer_index-1] + abs(integers[integer_index-1]-integers[integer_index]))  # long jump, short jump
+        cost_of_jumps[integer_index] = min(
+            cost_of_jumps[integer_index-1] + abs(integers[integer_index-1]-integers[integer_index]),
+            cost_of_jumps[integer_index-2] + abs(integers[integer_index-2]-integers[integer_index])
+            )  # short jump, long jump
 
     print(cost_of_jumps[integer_index])
 
-# REDO
