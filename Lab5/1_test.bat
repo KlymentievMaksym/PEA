@@ -1,0 +1,1 @@
+Type 1_text1.txt | ComponentConnection.py
