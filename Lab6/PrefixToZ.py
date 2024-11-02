@@ -6,37 +6,60 @@
 # ####Вихідні данні:
 # Виведіть єдиний рядок з N цілих невід'ємних чисел - опис z-функції.
 
-n = int(input())
-# a = list(map(int, input().split()))
-a = input().split()
-z = [0] * n
+# def z_func(s):
+#     length = len(s)
+#     z = [0] * length
+#     for i in range(1, length):
+#         while i + z[i] < length and s[z[i]] == s[i + z[i]]:
+#             z[i] += 1
+#     return z
 
 
-def z_func(s):
-    z = [0] * len(s)
-    left, right = 0, 0
-    for i in range(0, len(s)):
-        z[i] = max(0, min(z[i - left], right - i))
-        while i + z[i] < len(s) and s[z[i]] == s[i + z[i]]:
-            z[i] += 1
-        if i + z[i] > right:
-            left, right = i, i + z[i]
+# def prefix_func(s):
+#     length = len(s)
+#     p = [0] * length
+#     for i in range(length):
+#         for k in range(i+1):
+#             if s[0:k] == s[i-k+1:i+1]:
+#                 p[i] = k
+#     return p
+
+
+# def p_to_z_func(p):
+#     length = len(p)
+#     z = [0] * length
+#     for i in range(1, length):
+#         if p[i] > 0:
+#             z[i - p[i] + 1] = p[i]
+#             for j in range(1, p[i]):
+#                 if z[i - p[i] + 1 + j] < p[i] - j:
+#                     z[i - p[i] + 1 + j] = p[i] - j
+#     return z
+
+
+
+# # s = 'abcabcd'
+# s = 'aaaaa'
+
+# p = prefix_func(s)
+# z_result_p = p_to_z_func(p)
+
+# print(p)
+# print(z_func(s))
+# print(z_result_p)
+
+
+def p_to_z_func(p):
+    length = len(p)
+    z = [0] * length
+    for i in range(1, length):
+        if p[i] > 0:
+            z[i - p[i] + 1] = p[i]
+            for j in range(1, p[i]):
+                if z[i - p[i] + 1 + j] < p[i] - j:
+                    z[i - p[i] + 1 + j] = p[i] - j
     return z
 
-
-def prefix(s):
-    p = [0] * len(s)
-    for i in range(1, len(s)):
-        k = p[i - 1]
-        while k > 0 and s[k] != s[i]:
-            k = p[k - 1]
-        if s[k] == s[i]:
-            k += 1
-        p[i] = k
-    return p
-
-
-z = z_func(a)
-p = prefix(a)
-print(*z)
-print(*p)
+n = int(input())
+p = list(map(int, input().split()))
+print(*p_to_z_func(p))
