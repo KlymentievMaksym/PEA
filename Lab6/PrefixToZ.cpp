@@ -4,40 +4,43 @@
 
 using namespace std;
 
-vector<int> prefix_to_z_function(const vector<int>& pi) {
-    int n = pi.size();
-    vector<int> z(n, 0);
-    for (int i = 1; i < n; i++) {
-        if (pi[i] > 0) {
-            int j = i - pi[i] + 1;
-            z[j] = max(z[j], pi[i]);
-        }
-    }
-
-    int r = 0, l = 0;
-    for (int i = 1; i < n; i++) {
-        if (i < r) {
-            z[i] = min(r - i, z[i - l]);
-        }
-        if (i + z[i] > r) {
-            l = i;
-            r = i + z[i];
-        }
-    }
-    return z;
-}
-
-
-int main() {
+int main(){
     int n;
     cin >> n;
-    vector<int> pi(n);
+
+    vector<int> P(n);
+
     for (int i = 0; i < n; i++) {
-        cin >> pi[i];
+        cin >> P[i];
     }
-    vector<int> z = prefix_to_z_function(pi);
-    for (int i = 0; i < n; i++) {
-        cout << z[i] << " ";
+
+    vector<int> Z(n);
+
+	for(int i = 1; i < n; i++)
+        if(P[i])
+                Z[i - P[i] + 1] = P[i];
+    
+    Z[0] = 0;
+        
+    if(Z[1])
+            for(int i = 1; i < Z[1]; i++)
+                    Z[i + 1] = Z[1] - i;
+    
+    int t;
+    for(int i = Z[1] + 1; i < n - 1; i++)
+    {
+            t = i;
+            if(Z[i] && !Z[i + 1])
+                    for(int j = 1; j < Z[i] && Z[i + j] <= Z[j]; j++)
+                    {
+                            Z[i + j] = min(Z[j], Z[i] - j);
+                            t = i + j;
+                    }
+            i = t;  
+    }
+    for (int i = 0; i < n; i++)
+    {
+        cout << Z[i] << " ";
     }
     cout << endl;
     return 0;

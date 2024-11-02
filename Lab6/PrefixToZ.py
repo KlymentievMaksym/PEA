@@ -5,61 +5,27 @@
 # Перший рядок вхідного стандартного потоку містить число N (1 ≤ N ≤ 10^6). Наступний рядок містить N цілих невід'ємних чисел - опис префікс-функції.
 # ####Вихідні данні:
 # Виведіть єдиний рядок з N цілих невід'ємних чисел - опис z-функції.
-
-# def z_func(s):
-#     length = len(s)
-#     z = [0] * length
-#     for i in range(1, length):
-#         while i + z[i] < length and s[z[i]] == s[i + z[i]]:
-#             z[i] += 1
-#     return z
-
-
-# def prefix_func(s):
-#     length = len(s)
-#     p = [0] * length
-#     for i in range(length):
-#         for k in range(i+1):
-#             if s[0:k] == s[i-k+1:i+1]:
-#                 p[i] = k
-#     return p
-
-
-# def p_to_z_func(p):
-#     length = len(p)
-#     z = [0] * length
-#     for i in range(1, length):
-#         if p[i] > 0:
-#             z[i - p[i] + 1] = p[i]
-#             for j in range(1, p[i]):
-#                 if z[i - p[i] + 1 + j] < p[i] - j:
-#                     z[i - p[i] + 1 + j] = p[i] - j
-#     return z
-
-
-
-# # s = 'abcabcd'
-# s = 'aaaaa'
-
-# p = prefix_func(s)
-# z_result_p = p_to_z_func(p)
-
-# print(p)
-# print(z_func(s))
-# print(z_result_p)
-
-
-def p_to_z_func(p):
-    length = len(p)
-    z = [0] * length
-    for i in range(1, length):
-        if p[i] > 0:
-            z[i - p[i] + 1] = p[i]
-            for j in range(1, p[i]):
-                if z[i - p[i] + 1 + j] < p[i] - j:
-                    z[i - p[i] + 1 + j] = p[i] - j
-    return z
-
 n = int(input())
-p = list(map(int, input().split()))
-print(*p_to_z_func(p))
+P = list(map(int, input().split()))
+Z = [0] * n
+
+for i in range(n):
+    if P[i]:
+        Z[i - P[i] + 1] = P[i]
+
+Z[0] = 0
+
+if Z[1]:
+    for i in range(1, Z[1]):
+        Z[i + 1] = Z[1] - i
+
+for i in range(Z[1] + 1, n - 1):
+    t = i
+    if Z[i] and not Z[i + 1]:
+        for j in range(1, Z[i]):
+            if Z[i + j] <= Z[j]:
+                Z[i + j] = min(Z[j], Z[i] - j)
+                t = i + j
+    i = t
+
+print(" ".join(map(str, Z)))
