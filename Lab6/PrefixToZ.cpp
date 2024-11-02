@@ -13,19 +13,20 @@ vector<int> prefix_to_z_function(const vector<int>& pi) {
             z[j] = max(z[j], pi[i]);
         }
     }
+
+    int r = 0, l = 0;
     for (int i = 1; i < n; i++) {
-        if (z[i] > 0) {
-            for (int j = 1; j < z[i] && i + j < n; j++) {
-                if (z[i + j] < z[i] - j) {
-                    z[i + j] = z[i] - j;
-                } else {
-                    break;
-                }
-            }
+        if (i < r) {
+            z[i] = min(r - i, z[i - l]);
+        }
+        if (i + z[i] > r) {
+            l = i;
+            r = i + z[i];
         }
     }
     return z;
 }
+
 
 int main() {
     int n;
