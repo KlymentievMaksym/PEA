@@ -32,42 +32,44 @@
 
 #include <iostream>
 #include <vector>
-#include <limits>
 
 using namespace std;
 
 const int INF = 30000;
 
-struct Edge {
+struct Edge
+{
     int from, to, weight;
 };
 
-int main() {
+int main()
+{
     int n, m;
     cin >> n >> m;
 
     vector<Edge> edges(m);
-    for (int i = 0; i < m; ++i) {
+    for (int i = 0; i < m; i++)
+    {
         cin >> edges[i].from >> edges[i].to >> edges[i].weight;
     }
 
     vector<int> distance(n + 1, INF);
     distance[1] = 0;
 
-    for (int i = 1; i <= n - 1; ++i) {
-        for (const auto &edge : edges) {
-            if (distance[edge.from] < INF) {
+    for (int i = 1; i <= n - 1; i++)
+    {
+        for (const Edge &edge : edges)
+        {
+            if (distance[edge.from] < INF)
+            {
                 distance[edge.to] = min(distance[edge.to], distance[edge.from] + edge.weight);
             }
         }
     }
 
-    for (int i = 1; i <= n; ++i) {
-        if (distance[i] == INF) {
-            cout << 30000 << " ";
-        } else {
-            cout << distance[i] << " ";
-        }
+    for (int i = 1; i <= n; i++) 
+    {
+        cout << distance[i] << " ";
     }
     cout << endl;
 
